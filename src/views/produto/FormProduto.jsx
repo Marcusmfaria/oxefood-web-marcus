@@ -3,19 +3,28 @@ import { Button, Container, Divider, Form, FormTextArea, Icon } from 'semantic-u
 
 export default function FormProduto() {
 
+    const [titulo, setTitulo] = useState();
+    const [codigoProduto, setCodigoProduto] = useState();
+    const [descricao, setDescricao] = useState();
+    const [valorUnitario, setValorUnitario] = useState();
+    const [tempoMinimo, setTempoMinimo] = useState();
+    const [tempoMaximo, setTempoMaximo] = useState();
+
     return (
 
         <div>
 
-            <div style={{marginTop: '3%'}}>
+            <MenuSistema tela={'produto'} />
+
+            <div style={{ marginTop: '3%' }}>
 
                 <Container textAlign='justified' >
 
-                    <h2> <span style={{color: 'darkgray'}}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
+                    <h2> <span style={{ color: 'darkgray' }}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
 
                     <Divider />
 
-                    <div style={{marginTop: '4%'}}>
+                    <div style={{ marginTop: '4%' }}>
 
                         <Form>
 
@@ -27,37 +36,49 @@ export default function FormProduto() {
                                     label='Título'
                                     maxLength="100"
                                     placeholder='Informe o título do produto'
+                                    value={titulo}
+                                    onChange={e => setTitulo(e.target.value)}
                                 />
 
                                 <Form.Input
                                     required
                                     fluid
                                     label='Código do Produto'
-                                    placeholder='Informe o código do produto'>
-                                        
+                                    placeholder='Informe o código do produto'
+                                    value={codigoProduto}
+                                    onChange={e => setCodigoProduto(e.target.value)}
+                                >
+
                                 </Form.Input>
 
                             </Form.Group>
 
-                            <FormTextArea label='Descrição' placeholder='Informe a descrição do produto' />
-                            
-                            
+                            <FormTextArea label='Descrição' placeholder='Informe a descrição do produto' value={descricao}
+                                onChange={e => setDescricao(e.target.value)} />
+
+
                             <Form.Group>
 
                                 <Form.Input
                                     required
                                     fluid
                                     label='Valor Unitário'
-                                    width={6}>
-                                     
+                                    width={6}
+                                    value={valorUnitario}
+                                    onChange={e => setValorUnitario(e.target.value)}
+                                >
+
                                 </Form.Input>
 
                                 <Form.Input
                                     fluid
                                     label='Tempo de Entrega Mínimo em Minutos'
                                     width={6}
-                                    placeholder='30'>
-                                    
+                                    placeholder='30'
+                                    value={tempoMinimo}
+                                    onChange={e => setTempoMinimo(e.target.value)}
+                                >
+
                                 </Form.Input>
 
                                 <Form.Input
@@ -65,14 +86,16 @@ export default function FormProduto() {
                                     label='Tempo de Entrega Máximo em Minutos'
                                     width={6}
                                     placeholder='40'
+                                    value={tempoMaximo}
+                                    onChange={e => setTempoMaximo(e.target.value)}
                                 >
                                 </Form.Input>
 
                             </Form.Group>
-                        
+
                         </Form>
-                        
-                        <div style={{marginTop: '4%'}}>
+
+                        <div style={{ marginTop: '4%' }}>
 
                             <Button
                                 type="button"
@@ -85,7 +108,7 @@ export default function FormProduto() {
                                 <Icon name='reply' />
                                 Voltar
                             </Button>
-                                
+
                             <Button
                                 inverted
                                 circular
@@ -101,7 +124,7 @@ export default function FormProduto() {
                         </div>
 
                     </div>
-                    
+
                 </Container>
             </div>
         </div>
