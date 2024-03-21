@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom/dist";
 import { Button, Container, Divider, Form, FormTextArea, Icon } from 'semantic-ui-react';
+import MenuSistema from "../../SistemaMenu";
 
 export default function FormProduto() {
 
@@ -106,7 +108,7 @@ export default function FormProduto() {
                                 color='orange'
                             >
                                 <Icon name='reply' />
-                                Voltar
+                                <Link to={'/list-produto'}>Voltar</Link>
                             </Button>
 
                             <Button

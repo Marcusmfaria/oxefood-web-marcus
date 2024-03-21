@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import InputMask from 'react-input-mask';
+import { Link } from "react-router-dom/dist";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
+import MenuSistema from "../../SistemaMenu";
 
 const estados = [
     { key: '0', text: 'Acre', value: 'acre' },
@@ -24,7 +26,6 @@ export default function FormEntregador() {
     const [cep, setCep] = useState();
     const [uf, setUf] = useState();
     const [complemento, setComplemento] = useState();
-    const [ativo, setAtivo] = useState();
 
 
 
@@ -231,7 +232,7 @@ export default function FormEntregador() {
                                 color='orange'
                             >
                                 <Icon name='reply' />
-                                Voltar
+                                <Link to={'/list-entregador'}>Voltar</Link>
                             </Button>
 
                             <Button
