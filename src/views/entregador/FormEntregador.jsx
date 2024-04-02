@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputMask from 'react-input-mask';
-import { Link } from "react-router-dom/dist";
+import { Link, useLocation } from "react-router-dom/dist";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from "../../SistemaMenu";
+import axios from "axios";
 
 const estados = [
     { key: '0', text: 'Acre', value: 'acre' },
@@ -11,6 +12,9 @@ const estados = [
 ]
 
 export default function FormEntregador() {
+
+    const { state } = useLocation();
+    const [idEntregador, setIdEntregador] = useState();
     const [nome, setNome] = useState();
     const [cpf, setCpf] = useState();
     const [rg, setRg] = useState();
@@ -27,6 +31,70 @@ export default function FormEntregador() {
     const [uf, setUf] = useState();
     const [complemento, setComplemento] = useState();
 
+
+    function salvar() {
+
+        let entregadorRequest = {
+            nome: nome,
+            cpf: cpf,
+            dataNascimento: dataNascimento,
+            foneCelular: foneCelular,
+            foneFixo: foneFixo,
+            qtdEntregas: qtdEntregas,
+            valorFrete: valorFrete,
+            rua: rua,
+            numeroRua: numeroRua,
+            bairro: bairro,
+            cidade: cidade,
+            cep: cep,
+            uf: uf,
+            complemento: complemento
+        }
+        if (idEntregador != null) { //Alteração:
+            axios.put("http://localhost:8080/api/entregador/" + idEntregador, entregadorRequest)
+                .then((response) => { console.log('Entregador alterado com sucesso.') })
+                .catch((error) => { console.log('Erro ao alter um entrgador.') })
+        } else { //Cadastro:
+            axios.post("http://localhost:8080/api/entregador", entregadorRequest)
+                .then((response) => { console.log('Entregador cadastrado com sucesso.') })
+                .catch((error) => { console.log('Erro ao incluir o entregador.') })
+        }
+        console.log(entregadorRequest);
+    }
+
+    function formatarData(dataParam) {
+
+        if (dataParam === null || dataParam === '' || dataParam === undefined) {
+            return ''
+        }
+
+        let arrayData = dataParam.split('-');
+        return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
+    }
+
+    useEffect(() => {
+        if (state != null && state.id != null) {
+            axios.get("http://localhost:8080/api/entregador/" + state.id)
+                .then((response) => {
+                    setIdEntregador(response.data.id)
+                    setNome(response.data.nome)
+                    setCpf(response.data.cpf)
+                    setRg(response.data.rg)
+                    setDataNascimento(formatarData(response.data.dataNascimento))
+                    setFoneCelular(response.data.foneCelular)
+                    setFoneFixo(response.data.foneFixo)
+                    setQtdEntregas(response.data.qtdEntregas)
+                    setValorFrete(response.data.valorFrete)
+                    setRua(response.data.rua)
+                    setNumeroRua(response.data.numeroRua)
+                    setBairro(response.data.bairro)
+                    setCidade(response.data.cidade)
+                    setCep(response.data.cep)
+                    setUf(response.data.uf)
+                    setComplemento(response.data.complemento)
+                })
+        }
+    }, [state])
 
 
 
@@ -71,6 +139,7 @@ export default function FormEntregador() {
                                     <InputMask
                                         required
                                         mask="999.999.999-99"
+                                        onChange={e => setCpf(e.target.value)}
                                     />
 
                                 </Form.Input>
@@ -82,21 +151,28 @@ export default function FormEntregador() {
                                     value={rg}
                                     onChange={e => setRg(e.target.value)}>
 
+                                    <InputMask
+                                        mask="9.999.999"
+                                        value={rg}
+                                        onChange={e => setRg(e.target.value)}
+                                    />
                                 </Form.Input>
 
                             </Form.Group>
 
                             <Form.Group>
-                                <Form.Input
+                            <Form.Input
                                     fluid
-                                    label='DT Nascimento'
-                                    maxLength="100"
-                                    width={5}
-                                    placeholder='Ex:20/10/1985'
-                                    value={dataNascimento}
-                                    onChange={e => setDataNascimento(e.target.value)}
-                                />
-
+                                    label='Data Nascimento'
+                                    width={6}
+                                
+                                >
+                                    <InputMask
+                                        mask="99/99/9999"
+                                        value={dataNascimento}
+                                        onChange={e => setDataNascimento(e.target.value)}
+                                    />
+                                </Form.Input>
                                 <Form.Input
                                     required
                                     fluid
@@ -108,6 +184,7 @@ export default function FormEntregador() {
                                     <InputMask
                                         required
                                         mask="(99) 9999.9999"
+                                        onChange={e => setFoneCelular(e.target.value)}
                                     />
 
                                 </Form.Input>
@@ -121,6 +198,7 @@ export default function FormEntregador() {
                                 >
                                     <InputMask
                                         mask="(99) 9999.9999"
+                                        onChange={e => setFoneFixo(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -196,7 +274,8 @@ export default function FormEntregador() {
                                     onChange={e => setCep(e.target.value)}>
                                     <InputMask
                                         required
-                                        mask="99.999-9  99"
+                                        mask="99.999-999"
+                                        onChange={e => setCep(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -223,7 +302,7 @@ export default function FormEntregador() {
 
                         <div style={{ marginTop: '4%' }}>
 
-                            <Button
+                        <Button
                                 type="button"
                                 inverted
                                 circular
@@ -233,6 +312,7 @@ export default function FormEntregador() {
                             >
                                 <Icon name='reply' />
                                 <Link to={'/list-entregador'}>Voltar</Link>
+
                             </Button>
 
                             <Button
@@ -242,6 +322,7 @@ export default function FormEntregador() {
                                 labelPosition='left'
                                 color='blue'
                                 floated='right'
+                                onClick={() => salvar()}
                             >
                                 <Icon name='save' />
                                 Salvar

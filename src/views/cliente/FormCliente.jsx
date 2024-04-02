@@ -33,7 +33,6 @@ export default function FormCliente() {
                 .then((response) => { console.log('Cliente cadastrado com sucesso.') })
                 .catch((error) => { console.log('Erro ao incluir o cliente.') })
         }
-        console.log(clienteRequest);
     }
 
     function formatarData(dataParam) {
