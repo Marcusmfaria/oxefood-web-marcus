@@ -33,6 +33,7 @@ export default function FormCliente() {
                 .then((response) => { console.log('Cliente cadastrado com sucesso.') })
                 .catch((error) => { console.log('Erro ao incluir o cliente.') })
         }
+        console.log(clienteRequest);
     }
 
     function formatarData(dataParam) {
@@ -108,8 +109,9 @@ export default function FormCliente() {
                                     value={cpf}
                                     onChange={e => setCpf(e.target.value)}>
                                     <InputMask
-                                        required
                                         mask="999.999.999-99"
+                                        value={cpf}
+                                        onChange={e => setCpf(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -125,7 +127,9 @@ export default function FormCliente() {
                                     onChange={e => setFoneCelular(e.target.value)}
                                 >
                                     <InputMask
-                                        mask="(99) 9999.9999"
+                                        mask="(99) 9999-9999"
+                                        value={foneCelular}
+                                        onChange={e => setFoneCelular(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -137,7 +141,9 @@ export default function FormCliente() {
                                     onChange={e => setFoneFixo(e.target.value)}
                                 >
                                     <InputMask
-                                        mask="(99) 9999.9999"
+                                        mask="(99) 9999-9999"
+                                        value={foneFixo}
+                                        onChange={e => setFoneFixo(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -150,8 +156,8 @@ export default function FormCliente() {
                                 >
                                     <InputMask
                                         mask="99/99/9999"
-                                        maskChar={null}
-                                        placeholder="Ex: 20/03/1985"
+                                        value={dataNascimento}
+                                        onChange={e => setDataNascimento(e.target.value)}
                                     />
                                 </Form.Input>
 
