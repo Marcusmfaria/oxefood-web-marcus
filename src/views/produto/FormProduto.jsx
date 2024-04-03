@@ -1,16 +1,60 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom/dist";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom/dist";
 import { Button, Container, Divider, Form, FormTextArea, Icon } from 'semantic-ui-react';
 import MenuSistema from "../../SistemaMenu";
+import axios from "axios";
 
 export default function FormProduto() {
 
+    const { state } = useLocation();
+    const [idProduto, setIdProduto] = useState();
     const [titulo, setTitulo] = useState();
     const [codigoProduto, setCodigoProduto] = useState();
     const [descricao, setDescricao] = useState();
     const [valorUnitario, setValorUnitario] = useState();
     const [tempoMinimo, setTempoMinimo] = useState();
     const [tempoMaximo, setTempoMaximo] = useState();
+
+    function salvar() {
+
+        let produtoRequest = {
+            titulo: titulo,
+            codigoProduto: codigoProduto,
+            descricao: descricao,
+            valorUnitario: valorUnitario,
+            tempoMinimo: tempoMinimo,
+            tempoMaximo: tempoMaximo    
+        }
+        if (idProduto != null) { //Alteração:
+            axios.put("http://localhost:8080/api/produto/" + idProduto, produtoRequest)
+                .then((response) => { console.log('Produto alterado com sucesso.') })
+                .catch((error) => { console.log('Erro ao alter um produto.') })
+        } else { //Cadastro:
+            axios.post("http://localhost:8080/api/produto", produtoRequest)
+                .then((response) => { console.log('Produto cadastrado com sucesso.') })
+                .catch((error) => { console.log('Erro ao incluir o produto.') })
+        }
+        
+    }
+
+
+
+    useEffect(() => {
+        if (state != null && state.id != null) {
+            axios.get("http://localhost:8080/api/produto/" + state.id)
+                .then((response) => {
+                    setIdProduto(response.data.id)
+                    setTitulo(response.data.titulo)
+                    setCodigoProduto(response.data.codigoProduto)
+                    setDescricao(response.data.descricao)
+                    setValorUnitario(response.data.valorUnitario)
+                    setTempoMinimo(response.data.tempoMinimo)
+                    setTempoMaximo(response.data.tempoMaximo)
+                    
+                })
+        }
+    }, [state])
+
 
     return (
 
@@ -118,6 +162,7 @@ export default function FormProduto() {
                                 labelPosition='left'
                                 color='blue'
                                 floated='right'
+                                onClick={() => salvar()}
                             >
                                 <Icon name='save' />
                                 Salvar
