@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom/dist";
 import { Button, Container, Divider, Form, FormTextArea, Icon } from 'semantic-ui-react';
 import MenuSistema from "../../SistemaMenu";
 import axios from "axios";
+import {mensagemErro, notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormProduto() {
 
@@ -34,8 +35,13 @@ export default function FormProduto() {
                 .catch((error) => { console.log('Erro ao alter um produto.') })
         } else { //Cadastro:
             axios.post("http://localhost:8080/api/produto", produtoRequest)
-                .then((response) => { console.log('Produto cadastrado com sucesso.') })
-                .catch((error) => { console.log('Erro ao incluir o produto.') })
+                .then((response) => { notifySuccess('Produto cadastrado com sucesso.') })
+                .catch((error) => { if (error.response) {
+                    notifyError(error.response.data.message)
+                    } else {
+                    notifyError(mensagemErro)
+                    }                     
+                     })
         }
         
     }
@@ -56,7 +62,7 @@ export default function FormProduto() {
                 })
         }
 
-        axios.get("http://localhost:8080/api/categoriaproduto")
+        axios.get("http://localhost:8080/api/categoriaProduto")
         .then((response) => {
             const dropDownCategorias = response.data.map(c => ({ text: c.descricao, value: c.id }));
             setListaCategoria(dropDownCategorias);

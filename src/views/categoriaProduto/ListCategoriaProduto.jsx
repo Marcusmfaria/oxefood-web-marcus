@@ -15,7 +15,7 @@ export default function ListCategoriaProduto() {
 
     function carregarLista() {
 
-        axios.get("http://localhost:8080/api/categoriaproduto")
+        axios.get("http://localhost:8080/api/categoriaProduto")
         .then((response) => {
             setLista(response.data)
         })
@@ -27,12 +27,12 @@ export default function ListCategoriaProduto() {
     }
     async function remover() {
 
-        await axios.delete('http://localhost:8080/api/categoriaproduto/' + idRemover)
+        await axios.delete('http://localhost:8080/api/categoriaProduto/' + idRemover)
         .then((response) => {
 
             console.log('Categoria removida com sucesso.')
 
-            axios.get("http://localhost:8080/api/categoriaproduto")
+            axios.get("http://localhost:8080/api/categoriaProduto")
             .then((response) => {
                 setLista(response.data)
             })
@@ -76,10 +76,10 @@ export default function ListCategoriaProduto() {
                      
                           <Table.Body>
     
-                              { lista.map(promocao => (
+                              { lista.map(categoriaProduto => (
     
-                                  <Table.Row key={promocao.id}>
-                                      <Table.Cell >{promocao.descricao}</Table.Cell>
+                                  <Table.Row key={categoriaProduto.id}>
+                                      <Table.Cell >{categoriaProduto.descricao}</Table.Cell>
                                         <Table.Cell textAlign='center'>
                                       <Button
                                             inverted
@@ -87,14 +87,14 @@ export default function ListCategoriaProduto() {
                                             color='green'
                                             title='Clique aqui para editar os dados desta categoria'
                                             icon>
-                                                <Link to="/form-promocao" state={{id: promocao.id}} style={{color: 'green'}}> <Icon name='edit' /> </Link>
+                                                <Link to="/form-categoria-produto" state={{id: categoriaProduto.id}} style={{color: 'green'}}> <Icon name='edit' /> </Link>
                                         </Button> &nbsp;
                                           <Button
                                                    inverted
                                                    circular
                                                    color='red'
-                                                   title='Clique aqui para remover este promocao'
-                                                   onClick={e => confirmaRemover(promocao.id)}
+                                                   title='Clique aqui para remover este categoriaProduto'
+                                                   onClick={e => confirmaRemover(categoriaProduto.id)}
                                                    icon>
                                                        <Icon name='trash' />
                                                </Button>
