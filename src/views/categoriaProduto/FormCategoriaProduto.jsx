@@ -23,7 +23,7 @@ export default function FormCategoriaProduto() {
             .then(response => { console.log('Categoria de produto alterada com sucesso.',JSON.stringify(response,null,2))},setTimeout(navigate('/list-categoria-produto'),5000))
             .catch(error => { console.log('Erro ao alterar uma categoria de produto.',JSON.stringify(error,null,2)) })
         } else { //Cadastro:
-            axios.post("http://localhost:8080/api/categoriaProduto", categoriaProdutoRequest)
+            axios.post("http://localhost:8080/api/categoriaProduto/", categoriaProdutoRequest)
             .then((response) => { notifySuccess('Categoria de produto cadastrada com sucesso.')
             },setTimeout(navigate('/list-categoria-produto'),5000))
             .catch((error) => { if (error.response) {
